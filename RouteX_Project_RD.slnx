@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/TestGeneral/">
+    <Project Path="tests/TestProject/TestProject.csproj" Id="5b69f3e3-c006-42a7-a54a-4f879ef5e24b" />
+  </Folder>
+  <Project Path="src/RouteX_Project_RD/RouteX_Project/RouteX_Project.csproj" />
+</Solution>
