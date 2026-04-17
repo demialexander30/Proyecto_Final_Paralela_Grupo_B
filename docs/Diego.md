@@ -40,7 +40,7 @@ Se implementó el algoritmo de Dijkstra para encontrar la ruta de menor costo ent
 *	Se trabajó con matriz de adyacencia para mantener consistencia.
 
 
-## Issue #4 — Implementación de BFS (Algorithm2_BFS.cs)
+## Issue #4 — Implementación de BFS (Algoritmo2_BFS.cs)
 
 ### ¿Qué se hizo?
 
@@ -79,3 +79,37 @@ El algoritmo retorna RouteResult con:
 	* Se detiene al encontrar el destino para ahorrar tiempo.
 	* El costo se calcula al final porque BFS no usa pesos.
 	* Se prioriza velocidad sobre el costo mínimo.
+
+
+## Issue #5 — Implementacion de Dijkstra con restricción de costo (Algoritmo3_Dijkstra_Threshold.cs)
+
+### ¿Qué se hizo?
+
+Se implementó una versión de Dijkstra que ignora conexiones con costo mayor a un límite. Esto simula evitar rutas caras. En algunos casos, puede no encontrar ruta.
+
+### Lógica del algoritmo
+
+* Se define:
+	* THRESHOLD = 70
+	* Se usa la misma base de Dijkstra:
+		* dist[], visited[], prev[]
+	* Al evaluar vecinos:
+		* Solo se consideran conexiones con costo menor o igual al umbral
+	* Se verifica la cancelación en cada iteración.
+	* Si se alcanza el destino, se reconstruye la ruta.
+
+###	Resultado retornado
+
+El algoritmo retorna RouteResult con:
+
+	* AlgorithmName = "Evita costos > 70"
+	* Ruta encontrada (si existe)
+	* TotalCost, Stops, ElapsedMs
+	* Found indicando si hay ruta
+
+### Decisiones de diseño
+
+	* Se reutilizó la lógica de Dijkstra para mantener consistencia.
+	* El filtro se aplicó directamente al evaluar vecinos.
+	* Es posible que no exista ruta por el filtro.
+	* Se enfoca en evitar costos altos, diferenciándose de los otros algoritmos.
