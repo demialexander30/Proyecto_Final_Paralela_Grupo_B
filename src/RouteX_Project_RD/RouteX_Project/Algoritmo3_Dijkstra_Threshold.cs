@@ -124,6 +124,7 @@ namespace RouteX_Project
                 Stops = path.Count - 2,
                 ElapsedMs = stopwatch.ElapsedMilliseconds,
                 Found = true,
+                AlgorithmId = 3,
                 AlgorithmName = "Evita costos > 70"
             };
         }

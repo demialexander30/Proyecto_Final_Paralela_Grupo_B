@@ -27,17 +27,24 @@ namespace RouteX_Project
             if (ganador != null)
                 Console.WriteLine($"\nGanador: {ganador.AlgorithmName} - {ganador.ElapsedMs} ms");
             else
-                Console.WriteLine("\nNingún algoritmo encontró ruta.");
+                Console.WriteLine("\n------ Comparativa de algoritmos ------");
+                Console.WriteLine($"{"Algoritmo",-40} {"Costo",20} {"Paradas",8} {"Tiempo(ms)",11} {"Encontró",9}");
+                Console.WriteLine(new string('-', 92));
 
-            Console.WriteLine("\n------ Comparativa de algoritmos ------");
-            Console.WriteLine($"{"Algoritmo",-40} {"Costo",6} {"Paradas",8} {"Tiempo(ms)",11} {"Encontró",9}");
-            Console.WriteLine(new string('-', 78));
+                foreach (var r in resultados)
+                {
+                    string costoLabel = r.AlgorithmId switch
+                    {
+                        1 => $"{r.TotalCost} (menor distancia)",
+                        2 => $"{r.TotalCost} (dist. total)",
+                        3 => $"{r.TotalCost} (sin peajes >70)",
+                        4 => $"{r.TotalCost} (costo inmediato)",
+                        _ => r.TotalCost.ToString()
+                    };
 
-            foreach (var r in resultados)
-            {
-                string encontro = r.Found ? "Sí" : "No";
-                Console.WriteLine($"{r.AlgorithmName,-40} {r.TotalCost,6} {r.Stops,8} {r.ElapsedMs,11} {encontro,9}");
-            }
+                    string encontro = r.Found ? "Sí" : "No";
+                    Console.WriteLine($"{r.AlgorithmName,-40} {costoLabel,20} {r.Stops,8} {r.ElapsedMs,11} {encontro,9}");
+                }
         }
 
         public static void Export(string path, List<RouteResult> resultados, long tSecuencial, long tParalelo, int cores)
@@ -60,6 +67,7 @@ namespace RouteX_Project
             sb.AppendLine();
 
             sb.AppendLine("=== COMPARATIVA DE ALGORITMOS ===");
+            sb.AppendLine("Nota: Costo Dijkstra=distancia minima | BFS=distancia total | Dijkstra Filtrado=sin conexiones >70 | Greedy=costo inmediato por paso");
             sb.AppendLine("AlgorithmId,AlgorithmName,TotalCost,Stops,ElapsedMs,Found");
 
             foreach (var r in resultados)
