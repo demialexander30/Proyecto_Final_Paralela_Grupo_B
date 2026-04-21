@@ -11,6 +11,7 @@ namespace RouteX_Project.Tests
         {
             // Creamos una matriz pequeña 3x3 de prueba
             // Ruta obvia: Nodo 0 -> Nodo 1 -> Nodo 2
+
             int[,] testMatrix = new int[,]
             {
                 { 0, 10, 0 },
@@ -21,7 +22,7 @@ namespace RouteX_Project.Tests
             CancellationTokenSource cts = new CancellationTokenSource();
 
             // Ejecutamos el algoritmo del nodo 0 al nodo 2
-            var resultado = Algoritmo4.Run(testMatrix, 0, 2, cts.Token);
+            var resultado = Algoritmo4.Run(testMatrix, 0, 2, cts.Token); 
 
             // Verificamos que Found sea true y el costo sea correcto (10 + 20 = 30)
             Assert.True(resultado.Found);
