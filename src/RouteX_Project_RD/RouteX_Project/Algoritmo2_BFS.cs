@@ -10,7 +10,7 @@ namespace RouteX_Project
     {
         public static RouteResult Run(int[,] matrix, int origin, int destination, CancellationToken token)
         {
-            Console.WriteLine($"[BFS] Task inicio: {Task.CurrentId}");
+            Console.WriteLine($"[BFS] Task inicio en ID del hilo: {Task.CurrentId}");
 
             var stopwatch = Stopwatch.StartNew();
 
@@ -38,7 +38,7 @@ namespace RouteX_Project
                 if (token.IsCancellationRequested)
                 {
                     stopwatch.Stop();
-                    Console.WriteLine($"[BFS] Cancelado: {Task.CurrentId}");
+                    Console.WriteLine($"[BFS] Cancelado en ID del hilo: {Task.CurrentId}");
 
                     return new RouteResult
                     {
@@ -72,7 +72,7 @@ namespace RouteX_Project
 
             if (!found)
             {
-                Console.WriteLine($"[BFS] Sin ruta: {Task.CurrentId}");
+                Console.WriteLine($"[BFS] Sin ruta en ID del hilo: {Task.CurrentId}");
 
                 return new RouteResult
                 {
@@ -100,7 +100,7 @@ namespace RouteX_Project
                 totalCost += matrix[path[i], path[i + 1]];
             }
 
-            Console.WriteLine($"[BFS] Finalizado: {Task.CurrentId}");
+            Console.WriteLine($"[BFS] Finalizado en ID del hilo: {Task.CurrentId}");
 
             return new RouteResult
             {

@@ -53,3 +53,28 @@ Modelo de datos sin lógica, solo propiedades. Todas las clases de algoritmos re
 - `MapMatrix` es estática porque la matriz es un recurso compartido de solo lectura, no necesita instanciarse.
 - `RouteResult` no tiene lógica interna para respetar el principio de responsabilidad única — cada algoritmo decide cómo llenar el modelo.
 - Se usó `List<int>` para el Path porque el tamaño de la ruta es variable y desconocido al momento de crear el objeto.
+
+## Issue #12 — Test unitario final integrador
+
+### ¿Qué se hizo?
+Se creó `IntegrationTests.cs` en `/tests` con 5 pruebas que verifican el funcionamiento
+completo del sistema de punta a punta, integrando todos los componentes desarrollados
+por el equipo.
+
+### Pruebas implementadas
+
+| Prueba | Descripción | Resultado |
+|---|---|---|
+| Prueba1_AlMenosUnAlgoritmoEncuentraRuta | Genera matriz real, corre los 4 algoritmos en paralelo con CancellationTokenSource compartido y verifica que al menos uno retorna Found=true | ✅ |
+| Prueba2_ConcurrentBagRecibeResultados | Verifica que el ConcurrentBag recibe al menos un resultado después de la ejecución paralela | ✅ |
+| Prueba3_MetricsReportPrintNoLanzaExcepcion | Verifica que MetricsReport.Print() no lanza excepción con resultados reales de los algoritmos | ✅ |
+| Prueba4_MetricsReportExportCreaArchivo | Verifica que MetricsReport.Export() crea efectivamente el archivo CSV en la ruta indicada | ✅ |
+| Prueba5_OrigenIgualDestinoNoLanzaExcepcion | Verifica que el sistema maneja el caso origen = destino sin lanzar excepción | ✅ |
+
+### Decisiones tomadas
+- Se usó `Path.GetTempPath()` en la Prueba 4 para no depender de rutas absolutas del
+repositorio durante los tests, haciendo las pruebas portables en cualquier máquina.
+- Se reutilizó el mismo patrón de `CancellationTokenSource` compartido que usa `Program.cs`
+para que el test integrador refleje el comportamiento real del sistema.
+- Los 5 tests pasaron en verde en `dotnet test` con un tiempo total de 335ms, confirmando
+que el sistema completo funciona correctamente de punta a punta.

@@ -10,7 +10,7 @@ namespace RouteX_Project
     {
         public static RouteResult Run(int[,] matrix, int origin, int destination, CancellationToken token)
         {
-            Console.WriteLine($"[Algoritmo 4] Iniciando en Task {Task.CurrentId}");
+            Console.WriteLine($"[Algoritmo 4] Iniciando en ID del hilo: {Task.CurrentId}");
 
             Stopwatch sw = Stopwatch.StartNew();
             List<int> path = new List<int> { origin };
@@ -24,7 +24,7 @@ namespace RouteX_Project
                 if (token.IsCancellationRequested)
                 {
                     sw.Stop();
-                    Console.WriteLine($"[Algoritmo 4] Cancelado en Task {Task.CurrentId}");
+                    Console.WriteLine($"[Algoritmo 4] Cancelado en ID del hilo: {Task.CurrentId}");
                     return new RouteResult { AlgorithmId = 4, AlgorithmName = "Greedy", Found = false };
                 }
 
@@ -59,7 +59,7 @@ namespace RouteX_Project
 
             sw.Stop();
 
-            Console.WriteLine($"[Algoritmo 4] Finalizando en Task {Task.CurrentId}");
+            Console.WriteLine($"[Algoritmo 4] Finalizando en ID del hilo: {Task.CurrentId}");
 
             return new RouteResult
             {

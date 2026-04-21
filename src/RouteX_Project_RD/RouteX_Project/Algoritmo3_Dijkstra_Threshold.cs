@@ -12,7 +12,7 @@ namespace RouteX_Project
 
         public static RouteResult Run(int[,] matrix, int origin, int destination, CancellationToken token)
         {
-            Console.WriteLine($"[Dijkstra-Threshold] Task inicio: {Task.CurrentId}");
+            Console.WriteLine($"[Dijkstra-Threshold] Task inicio en ID del hilo: {Task.CurrentId}");
 
             var stopwatch = Stopwatch.StartNew();
 
@@ -38,7 +38,7 @@ namespace RouteX_Project
                 if (token.IsCancellationRequested)
                 {
                     stopwatch.Stop();
-                    Console.WriteLine($"[Dijkstra-Threshold] Cancelado: {Task.CurrentId}");
+                    Console.WriteLine($"[Dijkstra-Threshold] Cancelado en ID del hilo: {Task.CurrentId}");
 
                     return new RouteResult
                     {
@@ -93,7 +93,7 @@ namespace RouteX_Project
             // No se encontro ruta
             if (dist[destination] == int.MaxValue)
             {
-                Console.WriteLine($"[Dijkstra-Threshold] Sin ruta: {Task.CurrentId}");
+                Console.WriteLine($"[Dijkstra-Threshold] Sin ruta en ID del hilo: {Task.CurrentId}");
 
                 return new RouteResult
                 {
@@ -115,7 +115,7 @@ namespace RouteX_Project
 
             path.Reverse();
 
-            Console.WriteLine($"[Dijkstra-Threshold] Finalizado: {Task.CurrentId}");
+            Console.WriteLine($"[Dijkstra-Threshold] Finalizado en ID del hilo: {Task.CurrentId}");
 
             return new RouteResult
             {
