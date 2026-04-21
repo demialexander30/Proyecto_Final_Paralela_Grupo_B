@@ -15,7 +15,7 @@ namespace RouteX_Project
             Console.WriteLine("=====================================================");
             Console.WriteLine(" Bienvenido a RouteX GPS RD | Programación Paralela ");
             Console.WriteLine("=====================================================\n");
-
+            Console.WriteLine($"[HILO PRINCIPAL] Iniciando en ID del hilo: {Thread.CurrentThread.ManagedThreadId}\n");
             Console.WriteLine("Generando mapa de ciudades (Matriz 1000x1000)...");
             int[,] matrix = MapMatrix.Generate();
             Console.WriteLine("Mapa generado exitosamente.\n");
@@ -117,6 +117,8 @@ namespace RouteX_Project
                     }
                 }
             }
+
+            Console.WriteLine($"\n[HILO PRINCIPAL] finalizado en ID del hilo: {Thread.CurrentThread.ManagedThreadId}\n");
         }
 
         static void RunAndStore(Func<int[,], int, int, CancellationToken, RouteResult> algoMethod,
