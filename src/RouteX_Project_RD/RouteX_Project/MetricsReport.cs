@@ -76,7 +76,7 @@ namespace RouteX_Project
             Directory.CreateDirectory(path);
             File.WriteAllText(fullPath, sb.ToString());
 
-            Console.WriteLine($"\nResultados exportados a: {fullPath}");
+            Console.WriteLine($"\nResultados exportados a la carpeta de metrics del proyecto");
         }
     }
 }
