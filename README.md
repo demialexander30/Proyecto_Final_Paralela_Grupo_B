@@ -38,13 +38,14 @@ distintos y responde tan pronto como el más rápido encuentra una ruta válida.
 ---
 
 ## Estructura del repositorio
-Proyecto_Final_Paralela_Grupo_B/
-├── src/          codigo fuente (algoritmos, modelos, Program.cs)
-├── tests/        proyecto xUnit con pruebas unitarias e integradoras
-├── docs/         documentacion individual de cada miembro
-├── Metrics/      resultados de comparativas y graficas de rendimiento
-├── .gitignore
-└── .sln
+
+    Proyecto_Final_Paralela_Grupo_B/
+    ├── src/        codigo fuente (algoritmos, modelos, Program.cs)
+    ├── tests/      proyecto xUnit con pruebas unitarias e integradoras
+    ├── docs/       documentacion individual de cada miembro
+    ├── Metrics/    resultados de comparativas y graficas de rendimiento
+    ├── .gitignore
+    └── .sln
 
 ## Tecnologias
 
