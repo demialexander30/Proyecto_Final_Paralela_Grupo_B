@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -32,8 +33,11 @@ namespace RouteX_Project
 
                 Console.WriteLine("\nCalculando rutas...");
 
-                Stopwatch swSeq = Stopwatch.StartNew();
+                // ─── EJECUCIÓN SECUENCIAL ───────────────────────────────────────
+                // Corre los 4 algoritmos uno por uno y guarda los resultados completos
+                // Estos son los que se muestran en el menú (siempre tienen ruta completa)
                 CancellationTokenSource dummyCts = new CancellationTokenSource();
+                Stopwatch swSeq = Stopwatch.StartNew();
 
                 var res1 = Algoritmo1_Dijkstra.Run(matrix, startNode, endNode, dummyCts.Token);
                 var res2 = Algoritmo2_BFS.Run(matrix, startNode, endNode, dummyCts.Token);
@@ -43,6 +47,11 @@ namespace RouteX_Project
                 swSeq.Stop();
                 long tSecuencial = swSeq.ElapsedMilliseconds;
 
+                // Lista con los 4 resultados completos para el menú
+                var sequentialResults = new List<RouteResult> { res1, res2, res3, res4 };
+
+                // ─── EJECUCIÓN PARALELA ─────────────────────────────────────────
+                // Corre los 4 en paralelo para medir tParalelo y determinar el ganador
                 CancellationTokenSource cts = new CancellationTokenSource();
                 ConcurrentBag<RouteResult> resultsBag = new ConcurrentBag<RouteResult>();
 
@@ -54,21 +63,22 @@ namespace RouteX_Project
                 tasks[2] = Task.Run(() => RunAndStore(Algoritmo3_Dijkstra_Threshold.Run, matrix, startNode, endNode, cts, resultsBag));
                 tasks[3] = Task.Run(() => RunAndStore(Algoritmo4.Run, matrix, startNode, endNode, cts, resultsBag));
 
-                try
-                {
-                    Task.WaitAll(tasks);
-                }
+                try { Task.WaitAll(tasks); }
                 catch (AggregateException) { }
 
                 swPar.Stop();
                 long tParalelo = swPar.ElapsedMilliseconds;
 
+                // Ganador de la carrera especulativa
                 var winner = resultsBag.Where(r => r.Found).OrderBy(r => r.ElapsedMs).FirstOrDefault();
                 if (winner != null)
-                {
-                    Console.WriteLine($"\n¡Carrera ganada por {winner.AlgorithmName}! (Algoritmo {winner.AlgorithmId})");
-                }
+                    Console.WriteLine($"\n¡Carrera ganada por {winner.AlgorithmName}! (Task {winner.AlgorithmId})");
+                else
+                    Console.WriteLine("\nNingún algoritmo encontró ruta.");
 
+                Console.WriteLine($"Tiempo secuencial: {tSecuencial} ms | Tiempo paralelo: {tParalelo} ms");
+
+                // ─── MENÚ INTERACTIVO ───────────────────────────────────────────
                 bool inMenu = true;
                 while (inMenu)
                 {
@@ -85,7 +95,8 @@ namespace RouteX_Project
 
                     if (int.TryParse(choice, out int option) && option >= 1 && option <= 4)
                     {
-                        PrintRouteResult(option, resultsBag);
+                        // Muestra desde los resultados secuenciales (siempre completos)
+                        PrintRouteResult(option, sequentialResults);
                     }
                     else if (choice == "5")
                     {
@@ -97,6 +108,8 @@ namespace RouteX_Project
                         exitProgram = true;
 
                         Console.WriteLine("\nGenerando reporte de métricas...");
+                        MetricsReport.Print(sequentialResults, tSecuencial, tParalelo, cores);
+                        MetricsReport.Export("../../../../../../Metrics", sequentialResults, tSecuencial, tParalelo, cores);
                     }
                     else
                     {
@@ -114,9 +127,7 @@ namespace RouteX_Project
             bag.Add(result);
 
             if (result.Found && !cts.IsCancellationRequested)
-            {
                 cts.Cancel();
-            }
         }
 
         static int GetValidInput(string message, int min, int max, int exclude = -1)
@@ -128,16 +139,15 @@ namespace RouteX_Project
                 string input = Console.ReadLine() ?? "";
 
                 if (int.TryParse(input, out value) && value >= min && value <= max && value != exclude)
-                {
                     return value;
-                }
+
                 Console.WriteLine("Entrada inválida o ciudad repetida. Intenta de nuevo.\n");
             }
         }
 
-        static void PrintRouteResult(int algId, ConcurrentBag<RouteResult> bag)
+        static void PrintRouteResult(int algId, List<RouteResult> results)
         {
-            var result = bag.FirstOrDefault(r => r.AlgorithmId == algId);
+            var result = results.FirstOrDefault(r => r.AlgorithmId == algId);
 
             if (result == null || !result.Found)
             {
@@ -147,8 +157,8 @@ namespace RouteX_Project
 
             Console.WriteLine($"\n--- Resultados de {result.AlgorithmName} ---");
             var pathString = string.Join(" -> ", result.Path.Select(node => $"Ciudad {(node + 1)}"));
-            Console.WriteLine($"{pathString}");
-            Console.WriteLine($"Costo total: {result.TotalCost} | Paradas: {result.Stops} | Tiempo de cálculo: {result.ElapsedMs} ms");
+            Console.WriteLine(pathString);
+            Console.WriteLine($"Costo total: {result.TotalCost} | Paradas: {result.Stops} | Tiempo: {result.ElapsedMs} ms");
         }
     }
 }

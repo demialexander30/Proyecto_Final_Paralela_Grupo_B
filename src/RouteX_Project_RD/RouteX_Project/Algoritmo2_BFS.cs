@@ -104,6 +104,8 @@ namespace RouteX_Project
 
             return new RouteResult
             {
+                AlgorithmId = 2,
+                AlgorithmName = "BFS - Menos Paradas",
                 Path = path,
                 TotalCost = totalCost,
                 Stops = path.Count - 2,

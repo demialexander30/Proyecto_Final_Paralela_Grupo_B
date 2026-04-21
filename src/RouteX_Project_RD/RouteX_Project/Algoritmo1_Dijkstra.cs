@@ -117,6 +117,8 @@ namespace RouteX_Project
 
             return new RouteResult
             {
+                AlgorithmId = 1,
+                AlgorithmName = "Dijkstra - Menor Costo",
                 Path = path,
                 TotalCost = dist[destination],
                 Stops = path.Count - 2,
