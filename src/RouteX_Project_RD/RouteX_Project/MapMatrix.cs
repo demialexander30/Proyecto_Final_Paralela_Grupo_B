@@ -10,7 +10,7 @@ namespace RouteX_Project
     {
         public static int[,] Generate()
         {
-            int size = 1000;
+            int size = 10000;
             int[,] matrix = new int[size, size];
             Random random = new Random();
 
