@@ -1,0 +1,14 @@
+=== MÉTRICAS GENERALES ===
+Tiempo Secuencial (ms),42
+Tiempo Paralelo (ms),199
+Speedup,0.21
+Eficiencia (%),10.55
+Cores,2
+
+=== COMPARATIVA DE ALGORITMOS ===
+Nota: Costo Dijkstra=distancia minima | BFS=distancia total | Dijkstra Filtrado=sin conexiones >70 | Greedy=costo inmediato por paso
+AlgorithmId,AlgorithmName,TotalCost,Stops,ElapsedMs,Found
+1,Dijkstra - Menor Costo,2,0,3,True
+2,BFS - Menos Paradas,2,0,3,True
+3,Evita costos > 70,2,0,0,True
+4,Greedy - Ruta más directa,134,128,12,True

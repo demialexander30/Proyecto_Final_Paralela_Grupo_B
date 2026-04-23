@@ -24,8 +24,8 @@ namespace RouteX_Project
 
             while (!exitProgram)
             {
-                int origin = GetValidInput("Ingrese la ciudad de origen (1-1000): ", 1, 1000);
-                int destination = GetValidInput($"Ingrese la ciudad de destino (1-1000, diferente a {origin}): ", 1, 1000, origin);
+                int origin = GetValidInput("Ingrese la ciudad de origen (1-5000): ", 1, 10000);
+                int destination = GetValidInput($"Ingrese la ciudad de destino (1-5000, diferente a {origin}): ", 1, 10000, origin);
                 int cores = GetValidInput("Ingrese el número de procesadores a utilizar (1-4): ", 1, 4);
 
                 int startNode = origin - 1;
