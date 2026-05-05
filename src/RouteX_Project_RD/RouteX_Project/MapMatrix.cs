@@ -10,7 +10,7 @@ namespace RouteX_Project
     {
         public static int[,] Generate()
         {
-            int size = 10000;
+            int size = 1000;
             int[,] matrix = new int[size, size];
             Random random = new Random();
 
@@ -29,7 +29,7 @@ namespace RouteX_Project
                 }
             }
 
-            // Diagonal siempre 0 (ya lo es por defecto pero lo dejamos explícito)
+            // Diagonal siempre 0 
             for (int i = 0; i < size; i++)
                 matrix[i, i] = 0;
 
